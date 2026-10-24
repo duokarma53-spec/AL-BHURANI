@@ -1,0 +1,5 @@
+{
+  "buildCommand": "echo 'Pre-built static release'",
+  "outputDirectory": ".",
+  "ignoreCommand": "exit 0"
+}
