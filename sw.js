@@ -1,6 +1,6 @@
 /**
- * AL-BHURANI POS — Production Service Worker
- * Version: albhurani-pos-v1
+ * AL-BURHANI POS — Production Service Worker
+ * Version: albhurani-pos-v3
  * 
  * Safety & Integrity Constraints:
  * 1. NEVER cache sensitive user authentication data or login tokens.
@@ -10,7 +10,7 @@
  * 5. Navigation requests use network-first with offline app shell fallback.
  */
 
-const CACHE_NAME = 'albhurani-pos-v1';
+const CACHE_NAME = 'albhurani-pos-v3';
 
 const STATIC_SHELL_ASSETS = [
   '/',
@@ -20,6 +20,13 @@ const STATIC_SHELL_ASSETS = [
   '/icon-192.png',
   '/icon-512.png',
 ];
+
+// Handle direct skipWaiting message from client
+self.addEventListener('message', (event) => {
+  if (event.data && (event.data.type === 'SKIP_WAITING' || event.data === 'skipWaiting')) {
+    self.skipWaiting();
+  }
+});
 
 // Install: Pre-cache static shell assets
 self.addEventListener('install', (event) => {
@@ -68,6 +75,7 @@ self.addEventListener('fetch', (event) => {
   // 2. Pass-through for database / remote API / auth / analytics endpoints (NEVER CACHE)
   const isRemoteApiOrDb = 
     url.hostname.includes('turso.io') ||
+    url.pathname.startsWith('/api') ||
     url.pathname.includes('/api/') ||
     url.pathname.includes('/auth') ||
     url.protocol === 'libsql:' ||
@@ -85,20 +93,23 @@ self.addEventListener('fetch', (event) => {
         .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put('/index.html', responseClone));
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, responseClone.clone());
+              cache.put('/index.html', responseClone);
+            });
           }
           return networkResponse;
         })
         .catch(async () => {
           const cachedApp = await caches.match('/index.html');
-          return cachedApp || caches.match('/');
+          return cachedApp || caches.match('/') || Response.error();
         })
     );
     return;
   }
 
   // 4. Static build assets (Vite hashed bundles, JS, CSS, fonts, SVG/PNG icons)
-  // Stale-While-Revalidate or Cache-First for versioned assets
+  // Stale-While-Revalidate for cached static assets
   if (
     url.origin === self.location.origin ||
     url.hostname.includes('fonts.googleapis.com') ||

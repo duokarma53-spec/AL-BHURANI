@@ -1,7 +1,7 @@
 {
-  "name": "AL-BHURANI POS",
-  "short_name": "AL-BHURANI",
-  "description": "AL-BHURANI Sweets & Dry Items - Premium POS, Barcode Billing, and Stock Management System",
+  "name": "AL-BURHANI POS",
+  "short_name": "AL-BURHANI",
+  "description": "AL-BURHANI Sweets & Dry Items - Premium POS, Barcode Billing, and Stock Management System",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

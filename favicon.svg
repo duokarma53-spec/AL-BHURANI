@@ -43,7 +43,7 @@
 
   <!-- Subtitle -->
   <text x="256" y="360" font-family="'Cinzel', 'Times New Roman', 'Georgia', sans-serif" font-size="28" font-weight="700" text-anchor="middle" fill="url(#goldGrad)" letter-spacing="9">
-    AL-BHURANI
+    AL-BURHANI
   </text>
   <text x="256" y="396" font-family="'Inter', -apple-system, sans-serif" font-size="16" font-weight="600" text-anchor="middle" fill="#A1A1AA" letter-spacing="6">
     RETAIL POS
