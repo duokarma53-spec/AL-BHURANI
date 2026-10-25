@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>AL-BURHANI</title>
+    <script>
+      // Single Page Apps redirect for GitHub Pages / static hosts
+      var pathSegmentsToKeep = 1; // retains repository prefix e.g. /AL-BHURANI/
+      var l = window.location;
+      var pathParts = l.pathname.slice(1).split('/');
+      var basePath = '/' + pathParts.slice(0, pathSegmentsToKeep).join('/');
+      var targetPath = '/' + pathParts.slice(pathSegmentsToKeep).join('/');
+      
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        basePath + '/?p=' + encodeURIComponent(targetPath) +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
